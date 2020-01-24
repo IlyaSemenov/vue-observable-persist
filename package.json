@@ -1,0 +1,85 @@
+{
+  "name": "vue-observable-persist",
+  "description": "",
+  "version": "0.0.0-development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IlyaSemenov/vue-observable-persist.git"
+  },
+  "author": "Ilya Semenov",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "src/**",
+    "dist/**"
+  ],
+  "scripts": {
+    "test": "tap 'test/**/*.test.js'",
+    "build": "rollup -c",
+    "prepublish": "npm run build",
+    "lint": "eslint --fix '**/*.{js,ts}'"
+  },
+  "prettier": {
+    "useTabs": true,
+    "semi": false,
+    "trailingComma": "all"
+  },
+  "tap": {
+    "coverage": false,
+    "node-arg": [
+      "-r",
+      "dotenv/config",
+      "-r",
+      "tsconfig-paths/register"
+    ],
+    "test-env": [
+      "TS_NODE_TRANSPILE_ONLY=1",
+      "TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"}"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/lodash": "^4.14.149",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "@wessberg/rollup-plugin-ts": "^1.2.13",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-simple-import-sort": "^5.0.1",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.2",
+    "prettier": "^1.19.1",
+    "rollup": "^1.29.1",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "semantic-release": "^16.0.3",
+    "tap": "^14.10.6",
+    "typescript": "^3.7.5",
+    "vue": "^2.6.11"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.11"
+  }
+}
