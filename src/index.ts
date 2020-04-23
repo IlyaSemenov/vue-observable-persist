@@ -1,9 +1,10 @@
-import { merge } from "lodash"
+import { merge, pick } from "lodash"
 import Vue from "vue"
 
 interface Options {
 	storage: Storage
 	key: string
+	fields?: string[]
 	serialize: (data: any) => any
 	deserialize: (data: any) => any
 }
@@ -18,12 +19,15 @@ const defaults: Options = {
 export default function persist<T>(store: T, opts?: Partial<Options>): T {
 	const options: Options = { ...defaults, ...opts }
 
-	const raw_data = options.storage.getItem(options.key)
-	let data
+	const filter_data = (data: T) =>
+		options.fields ? pick(data, options.fields) : data
+
 	try {
-		data = options.deserialize(raw_data)
+		merge(
+			store,
+			filter_data(options.deserialize(options.storage.getItem(options.key))),
+		)
 	} catch (err) {}
-	merge(store, data)
 
 	// Support Vue objects and plain observable objects
 	const store_data = (store as any).$data || store
@@ -35,7 +39,11 @@ export default function persist<T>(store: T, opts?: Partial<Options>): T {
 	})
 	watcher.$watch(
 		"data",
-		data => options.storage.setItem(options.key, options.serialize(data)),
+		data =>
+			options.storage.setItem(
+				options.key,
+				options.serialize(filter_data(data)),
+			),
 		{ deep: true },
 	)
 

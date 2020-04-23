@@ -35,6 +35,7 @@ If not explicitly overriden, the following defauts are used:
 persist(store, {
 	storage: localStorage,
 	key: "store",
+	fields: undefined, // pass array to save/load only certain keys: ["user", "token"]
 	serialize: JSON.stringify,
 	deserialize: JSON.parse,
 })
