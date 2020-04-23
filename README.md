@@ -20,15 +20,11 @@ class Store {
 	user: User = null
 
 	async login() {
-		// this.user = await axios.get(...)
+		this.user = await axios.get("/user")
 	}
 }
 
-const store = Vue.observable(new Store())
-
-persist(store)
-
-export default store
+export const store = persist(Vue.observable(new Store()))
 ```
 
 ## Options
@@ -43,3 +39,35 @@ persist(store, {
 	deserialize: JSON.parse,
 })
 ```
+
+## Persisting existing (or imported) objects
+
+```ts
+const store = Vue.observable(new Store())
+
+// store is converted to be persistent in place
+persist(store)
+```
+
+## Persisting Vue objects
+
+```ts
+import persist from "vue-observable-persist"
+import { Component, Vue } from "vue-property-decorator"
+
+import { User } from "~/types/User"
+
+@Component
+export class Store extends Vue {
+	user: User = null
+
+	async login() {
+		this.user = await axios.get("/user")
+		this.$emit("logged", this.user)
+	}
+}
+
+export const store = persist(new Store())
+```
+
+NOTE: Nested Vue objects are currently not supported.

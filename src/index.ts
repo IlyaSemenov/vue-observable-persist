@@ -25,16 +25,17 @@ export default function persist<T>(store: T, opts?: Partial<Options>): T {
 	} catch (err) {}
 	merge(store, data)
 
+	// Support Vue objects and plain observable objects
+	const store_data = (store as any).$data || store
+
 	const watcher = new Vue({
 		computed: {
-			store: () => store,
+			data: () => store_data,
 		},
 	})
 	watcher.$watch(
-		"store",
-		function() {
-			options.storage.setItem(options.key, options.serialize(store))
-		},
+		"data",
+		data => options.storage.setItem(options.key, options.serialize(data)),
 		{ deep: true },
 	)
 
