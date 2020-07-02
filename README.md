@@ -72,3 +72,41 @@ export const store = persist(new Store())
 ```
 
 NOTE: Nested Vue objects are currently not supported.
+
+## Persisting Vue Composition API objects
+
+```ts
+import { reactive } from "@vue/composition-api"
+import persist from "vue-observable-persist"
+
+import { User } from "~/types/User"
+
+interface Store {
+	user: User | null
+}
+
+export const store = persist(reactive<Store>({
+	user: null,
+}))
+```
+
+## Persisting in NativeScript
+
+```ts
+import * as app_settings from "tns-core-modules/application-settings"
+import persist from "vue-observable-persist"
+
+export const store = persist(
+	/* store object prepared with some of the methods above */,
+	{
+		storage: {
+			setItem(key: string, value: string) {
+				app_settings.setString(key, value)
+			},
+			getItem(key: string) {
+				return app_settings.getString(key)
+			},
+		},
+	},
+)
+```

@@ -2,7 +2,7 @@ import { merge, pick } from "lodash"
 import Vue from "vue"
 
 interface Options {
-	storage: Storage
+	storage: Pick<Storage, "getItem" | "setItem">
 	key: string
 	fields?: string[]
 	serialize: (data: any) => any
