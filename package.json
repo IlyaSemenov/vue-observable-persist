@@ -71,7 +71,7 @@
     "prettier": "^1.19.1",
     "rollup": "^1.29.1",
     "rollup-plugin-cleaner": "^1.0.0",
-    "semantic-release": "^16.0.3",
+    "semantic-release": "^17.2.3",
     "tap": "^14.10.6",
     "typescript": "^3.7.5",
     "vue": "^2.6.11"
